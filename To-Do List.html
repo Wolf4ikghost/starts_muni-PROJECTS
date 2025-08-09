@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>To-do-List</title>
+</head>
+<style type="text/css">
+	table
+	{
+		border: 1px solid black; /* Внешняя граница таблицы */
+ 		border-collapse: collapse;
+
+	}
+	.wrap
+	{
+		display: grid;
+		justify-content: center;
+		gap: 20px;
+		margin-top: 10.5rem;	
+	}
+	:root
+	{
+
+		--font-family: Times New Roman;
+		--border-radius: 10px;
+	}
+	input[type="text"]
+	{
+		border-radius: var(--border-radius);
+	}
+	form
+	{
+		display: grid;
+		gap:10px;
+	}
+	th,td
+	{
+		border: 1px solid #ddd; /* Границы ячеек */
+  		padding: 8px
+		text-align: center;
+		padding:5px ;
+	}
+</style>
+<body>
+	<div class="wrap">
+		<form>
+			<input placeholder="Название задачи" maxlength="20" id="Zadacha" type="text" name="input">
+			<input placeholder="Время" maxlength="20" id="DateTime" type="date" name="input">
+			<button id="bts_add">Добавить</button>
+			<button id="bts_del">Удалить</button>	
+		</form>
+		<table>
+			<thead>
+				<tr>
+					<th>Название задачи</th>
+					<th>Время когда нужно выполнить</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+				<th id="outps_val"></th>
+				<th id="outps_val2"></th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		const input=document.getElementById('Zadacha');
+		const add_bts=document.getElementById('bts_add');
+		const dates=document.getElementById('DateTime');
+		const del_bts=document.getElementById('bts_del');
+		const outs_val=document.getElementById('outps_val');
+		const outs_val2=document.getElementById('outps_val2');
+		const empty="";
+		add_bts.addEventListener('click',(e)=>{
+			e.preventDefault();
+			const inputs_val=input.value.trim();
+			add(inputs_val);
+		});
+		del_bts.addEventListener('click',()=>{
+			delet(inputs_val);
+		});
+		function add(add_inputs) {//Функция на добавления значений в таблицу
+			try
+			{
+				switch(add_inputs)
+				{
+					case empty:
+						alert("Заполните поля");
+							break;
+					default:
+						alert("Отлчино,поля не пустые");
+						 outs_val.innerHTML += add_inputs;
+				}
+			}
+			catch(error)
+			{
+				console.log("Ошибка");
+			}	
+		}
+		function delet()
+		 {
+			
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Timer</title>
+<style type="text/css">
+	.wrap
+	{
+		margin: 3.5rem auto 0;/* Центрирования дочерних элементов контейнера по центру  */
+		padding: 5px;
+		display: grid;
+		justify-content: center;
+		width: 5rem;
+		height: : 5rem;
+		border: thin solid white;
+		gap:10px;
+		border-radius: 5px;
+		box-shadow: 
+	}
+	#output
+	{
+		padding: 5px;
+		width: 40px;
+		height: : 30px;
+		border: thin solid black;
+		border-radius: 5px;
+	}
+	button
+	{
+		font-family: Times New Roman;
+		font-size: 14px;
+		background-color: white;
+		border-radius: 10px;
+		border-width: thin; 
+	}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<div id="output">мм:сс</div>
+			<button id="Start">Старт</button>
+			<button id="Stop">Пауза</button>
+			<button id="Reboot">Сброс</button>
+	</div>
+	<script type="text/javascript">
+		const start_bts=document.getElementById('Start');
+		const stop_bts=document.getElementById('Stop');
+		const output_div=document.getElementById('output');
+		const reboot_bts=document.getElementById('Reboot');
+		start_bts.addEventListener('click',(e)=>
+		{
+			start_timer();
+		});	
+		function start_timer() 
+		{
+		 let iutp_id=setInterval(()=>//Использование встроенной функции SetInterval для назначения таймера:сколько он будеьт каждый раз за мили скенунд перебирать время
+			{
+				const start_minutes_and_seconds = new Date();//Создание объекта
+				output_div.innerHTML = `${start_minutes_and_seconds.getMinutes()}:${start_minutes_and_seconds.getSeconds()}`;
+			},1000);
+		}
+		stop_bts.addEventListener('click',(e)=>
+		{
+			stop_timer();
+		});	
+		function stop_timer() 
+		{
+			setTimeOut(()=>{
+				clearInterval(iutp_id);
+			},3000)
+		}
+	</script>
+</body>
+</html>
