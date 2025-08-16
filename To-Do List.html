@@ -10,7 +10,6 @@
 	{
 		border: 1px solid black; /* Внешняя граница таблицы */
  		border-collapse: collapse;
-
 	}
 	.wrap
 	{
@@ -21,13 +20,13 @@
 	}
 	:root
 	{
-
 		--font-family: Times New Roman;
 		--border-radius: 10px;
 	}
 	input[type="text"]
 	{
 		border-radius: var(--border-radius);
+		border-width: thin;
 	}
 	form
 	{
@@ -57,11 +56,8 @@
 					<th>Время когда нужно выполнить</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-				<th id="outps_val"></th>
-				<th id="outps_val2"></th>
-				</tr>
+			<tbody id="tablebody">
+				
 			</tbody>
 		</table>
 	</div>
@@ -70,38 +66,37 @@
 		const add_bts=document.getElementById('bts_add');
 		const dates=document.getElementById('DateTime');
 		const del_bts=document.getElementById('bts_del');
-		const outs_val=document.getElementById('outps_val');
-		const outs_val2=document.getElementById('outps_val2');
-		const empty="";
-		add_bts.addEventListener('click',(e)=>{
-			e.preventDefault();
+		const tableBody=document.getElementById('tablebody');
+		add_bts.addEventListener('click',(e)=>
+		{
+			e.preventDefault();//Свойство без перрезагрузки страницы
 			const inputs_val=input.value.trim();
-			add(inputs_val);
-		});
-		del_bts.addEventListener('click',()=>{
-			delet(inputs_val);
-		});
-		function add(add_inputs) {//Функция на добавления значений в таблицу
-			try
+			const date=dates.value;
+			if (inputs_val != "" && dates !="")
 			{
-				switch(add_inputs)
-				{
-					case empty:
-						alert("Заполните поля");
-							break;
-					default:
-						alert("Отлчино,поля не пустые");
-						 outs_val.innerHTML += add_inputs;
-				}
+				alert("Отлично,поля не пустые");
 			}
-			catch(error)
+			else
 			{
-				console.log("Ошибка");
-			}	
-		}
-		function delet()
-		 {
-			
+				alert("Пустые поля");
+				return;
+			}
+			add(inputs_val,date);//Обьявление аргументов до создания функции до их заполнение 
+		});
+
+		del_bts.addEventListener('click',()=>
+		{//Функция на удаления эл-ов
+			delet(dells_val);
+		});
+
+		function add(pole,date)
+		{//Функция на добавления значений в таблицу
+			const row=document.createElement('tr');//Создание html элемента
+			row.innerHTML =  ` 
+                <td>${pole}</td>
+                <td>${date}</td>
+            `;
+            tableBody.appendChild(row);
 		}
 	</script>
 </body>
