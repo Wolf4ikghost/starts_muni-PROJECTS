@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>To-do-List</title>
+</head>
+<style type="text/css">
+	body
+	{
+		background-color: #FAFAFA;
+		display: flex;
+		justify-content: center;
+	}
+	table
+	{
+		border: 1px solid black; /* Внешняя граница таблицы */
+ 		border-collapse: collapse;
+ 		grid-area: tablichka;
+	}
+	.wrap
+	{
+		height: 14.3rem;
+		position: relative;
+		display: grid;
+		width: 40rem;
+		padding: 0.7rem;
+		 grid-template-columns: repeat(2,1fr);
+        grid-template-rows: auto auto 1fr;
+		grid-template-areas: 
+			"inputstext inputsdate"
+			"bts_text bts_date"
+			"tablichka tablichka";
+		gap: 5px;
+		margin-top: 10.5rem;	
+		border:2px solid #ccc;
+		margin: 10.5rem auto 0;/*auto по бокам центрирует контейнер */
+		border-radius: 1rem;	
+		padding-left: 9rem;/* Ширина sidebar + отступ */
+	}
+	:root
+	{
+		--brd_nnn:none;
+		--size_text:0.7rem;
+		--border_styles:2px solid #ccc;;
+		--padding:0.5rem;
+		--width_k: 10rem;
+		--font-family: Arial Black;
+		--border-radius: 9px;
+	}
+	.tetx_H input[type="text"] 
+	{
+    	border-radius: var(--border-radius);
+    	border:none;
+    	padding: var(--padding);
+    	width: var(--width_k);
+    	transition: all 0.3s ease;
+	}
+
+	.tetx_H input[type="text"]:focus 
+	{
+    	border: 2px solid #FF8630;
+    	background-color: rgb(255 134 48 / 0.1);
+    	outline: none;
+	}
+	input[type="date"]
+	{
+		border-radius: var(--border-radius);
+    	border: none;
+    	padding: var(--padding);
+    	width: var(--width_k);
+    	transition: all 0.3s ease;
+	}
+	input[type="date"]:focus 
+	{
+		border: 2px solid #FF8630;
+    	background-color: rgb(255 134 48 / 0.1);
+    	outline: none;
+	}
+	#bts_add,#bts_del
+	{	
+		font-size: var(--size_text);
+		border:var(--brd_nnn);
+		width: var(--width_k);
+		font-family: var(--font-family);
+		border-radius: var(--border-radius);
+		padding: var(--padding);
+		cursor: pointer;
+		color: white;
+		background-color: black;
+	}
+	form
+	{
+		display: contents;
+	}
+	:where(#bts_add,#bts_del):focus
+	{
+		outline: 1px solid #ffffff;
+  		outline-offset: 3px;
+	}
+	th,td
+	{
+		border: 1px solid #ddd; /* Границы ячеек */
+  		padding: 1px;
+		text-align: center;
+		padding:5px;
+	}
+	:where(.wrap,.sidebar)
+	{
+		background-color: #474A51;
+		font-family: Arial Black;
+		font-size: 14px;
+	}
+	.sidebar
+	{
+		position: absolute;
+        border-radius: var(--border-radius);
+        height: 13.7rem;
+        width: 4rem;
+        background: #333;
+        color: white;
+        padding: 1rem;
+	}
+	.sidebar ul
+	{
+		padding-left: 0.7rem;
+		list-style: none;
+		
+	}
+	.sidebar a
+	{
+		color: white;
+		text-decoration: none;
+	}
+</style>
+<body>
+	<div class="wrap">
+		<div class="sidebar">
+			<ul>
+				<li><a href="#">О нас</a></li>
+				<li><a href="#">Ссылка на автора</a></li>
+			</ul>
+		</div>
+		<form>
+			<div class="tetx_H">
+				<input placeholder="Название задачи" maxlength="20" id="Zadacha" type="text" name="input" required>	
+			</div>
+			
+			<input placeholder="Время" maxlength="20" id="DateTime" type="date" name="input" required>
+			<button id="bts_add">Добавить</button>
+			<button id="bts_del">Удалить</button>	
+			
+		</form>
+		<table>
+			<thead>
+				<tr>
+					<th>Название задачи</th>
+					<th>Время когда нужно выполнить</th>
+				</tr>
+			</thead>
+			<tbody id="tablebody">
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		const input=document.getElementById('Zadacha');
+		const add_bts=document.getElementById('bts_add');
+		const dates=document.getElementById('DateTime');
+		const del_bts=document.getElementById('bts_del');
+		const tableBody=document.getElementById('tablebody');
+		add_bts.addEventListener('click',(e)=>
+		{
+			e.preventDefault();//Свойство без перрезагрузки страницы
+			const inputs_val=input.value.trim();
+			const date=dates.value;
+			if (inputs_val !== "" && dates !== "")
+			{
+				alert("Отлично,поля не пустые");
+
+			}
+			else
+			{
+				alert("Пустые поля");
+				return;
+			}
+			add(inputs_val,date);//Обьявление аргументов до создания функции до их заполнение 
+		});
+
+		del_bts.addEventListener('click',()=>
+		{//Функция на удаления эл-ов
+			delet(dells_val);
+		});
+
+		function add(pole,date)
+		{//Функция на добавления значений в таблицу
+			
+			const save_danne_inp_text = window.localStorage.setItem('pole',`${pole}`);//Сохранение данных через localStorage
+
+			const save_danne_inp_date = window.localStorage.setItem('date',`${date}`);//Сохранение данных через localStorage
+			const row=document.createElement('tr');//Сохранение значений функций в поля таблицы
+			row.innerHTML =  ` 
+                <td>${pole}</td>
+                <td>${date}</td>
+            `;
+            tablebody.appendChild(row);//Добавление дочернего метода
+		}
+	</script>
+</body>
+</html>
