@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>To-do-List</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <style type="text/css">
 	body
@@ -14,6 +15,7 @@
 	}
 	table
 	{
+		font-size: 14px;
 		border: 1px solid black; /* Внешняя граница таблицы */
  		border-collapse: collapse;
  		grid-area: tablichka;
@@ -101,9 +103,7 @@
 	th,td
 	{
 		border: 1px solid #ddd; /* Границы ячеек */
-  		padding: 1px;
 		text-align: center;
-		padding:5px;
 	}
 	:where(.wrap,.sidebar)
 	{
@@ -115,22 +115,35 @@
 	{
 		position: absolute;
         border-radius: var(--border-radius);
-        height: 13.7rem;
-        width: 4rem;
+        height: 14rem;
+        width: 6rem;
         background: #333;
         color: white;
         padding: 1rem;
+	}
+	ul li
+	{
+		padding-left: 1px;
+		padding-top: 10px;
 	}
 	.sidebar ul
 	{
 		padding-left: 0.7rem;
 		list-style: none;
-		
 	}
 	.sidebar a
 	{
 		color: white;
 		text-decoration: none;
+	}
+	@media(max-width:767px)/*Для мобильных устройств */
+	{
+		.wrap
+		{
+			width: 95%;
+			margin: 1rem auto;
+			padding: 1rem;
+		}
 	}
 </style>
 <body>
@@ -145,13 +158,11 @@
 			<div class="tetx_H">
 				<input placeholder="Название задачи" maxlength="20" id="Zadacha" type="text" name="input" required>	
 			</div>
-			
 			<input placeholder="Время" maxlength="20" id="DateTime" type="date" name="input" required>
 			<button id="bts_add">Добавить</button>
-			<button id="bts_del">Удалить</button>	
-			
+			<button id="bts_del">Удалить</button>		
 		</form>
-		<table>
+		<table class="table table-dark table-sm">
 			<thead>
 				<tr>
 					<th>Название задачи</th>
@@ -168,34 +179,34 @@
 		const dates=document.getElementById('DateTime');
 		const del_bts=document.getElementById('bts_del');
 		const tableBody=document.getElementById('tablebody');
+		function isString(value) 
+		{
+    		return typeof value === 'string';
+		}
 		add_bts.addEventListener('click',(e)=>
 		{
-			e.preventDefault();//Свойство без перрезагрузки страницы
-			const inputs_val=input.value.trim();
-			const date=dates.value;
-			if (inputs_val !== "" && dates !== "")
-			{
-				alert("Отлично,поля не пустые");
-
-			}
-			else
-			{
-				alert("Пустые поля");
-				return;
-			}
+    		e.preventDefault();
+    		const inputs_val = input.value.trim();
+    		const date = dates.value; 
+    		if (isString(inputs_val) !== "" && date !== "")
+    		{
+        		alert("Отлично,поля не пустые");
+    		}
+    		else
+    		{
+        		alert("Пустые поля или неверный формат");
+        		return;
+    		}
 			add(inputs_val,date);//Обьявление аргументов до создания функции до их заполнение 
 		});
-
 		del_bts.addEventListener('click',()=>
 		{//Функция на удаления эл-ов
-			delet(dells_val);
+			delet(inputs_val,date);
 		});
 
 		function add(pole,date)
 		{//Функция на добавления значений в таблицу
-			
 			const save_danne_inp_text = window.localStorage.setItem('pole',`${pole}`);//Сохранение данных через localStorage
-
 			const save_danne_inp_date = window.localStorage.setItem('date',`${date}`);//Сохранение данных через localStorage
 			const row=document.createElement('tr');//Сохранение значений функций в поля таблицы
 			row.innerHTML =  ` 
@@ -203,6 +214,15 @@
                 <td>${date}</td>
             `;
             tablebody.appendChild(row);//Добавление дочернего метода
+		}
+		function delet(inpets_pole,inpts_date)
+		{
+			row.innerHTML =  ` 
+                <td>${""}</td>
+                <td>${""}</td>
+            `;
+			  tablebody.appendChild(row);
+			  localStorage.clear();
 		}
 	</script>
 </body>
